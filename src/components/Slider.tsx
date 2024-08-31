@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { disconnect } from "process";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const slides = [
   {
@@ -32,10 +31,22 @@ const slides = [
   },
 ];
 const Slider = () => {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(0);
+
+  // useEffect(() => {
+  //    const interval = setInterval(()=>{
+  //     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+  //    },3000);
+  
+  //   return () => (clearInterval(interval))
+  // }, [])
+  //meken tmai slide auto ynne tappara 3n 3nta
+
   return (
-    <div className="h-[calc(100vh-80px)] overflow-hidden">
-      <div className="w-max h-full flex transition-all ease-in-out duration-1000">
+    <div className="h-[calc(100vh-80px)] overflow-hidden" >
+      <div className="w-max h-full flex transition-all ease-in-out duration-1000"
+      style={{transform:`translateX(-${current*100}vw)`}} // meken tmai slide maru wenne mada tyna bola click karama
+      >
         {slides.map((slide)=>(
           <div className={`${slide.bg} w-screen h-full flex flex-col gap-16 xl:flex-row`} key={slide.id}>
             {/* Text Container */}
@@ -57,8 +68,9 @@ const Slider = () => {
         {slides.map((slide,index)=>(
           <div className={`w-3 h-3 rounded-full ring-1 ring-gray-600 cursor-pointer flex items-center justify-center
             ${ current === index ? "scale-150" : ""}
-          `} key={slide.id}>
-
+          `} key={slide.id}
+          onClick={() => setCurrent(index)}
+          >
             {current === index && (
               <div className="w-[6px] h-[6px] bg-gray-600 rounded-full"></div>
             )}
